@@ -1,0 +1,31 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/weison/Desktop/rc_opencv/install/rc_decision/include/**",
+        "/home/weison/Desktop/rc_opencv/install/rc_detector/include/**",
+        "/home/weison/Desktop/rc_opencv/install/yolov8_msgs/include/**",
+        "/home/weison/Desktop/rc_opencv/install/v4l2_camera/include/**",
+        "/home/weison/Desktop/auto_robo/install/rc_state_collector/include/**",
+        "/home/weison/Desktop/auto_robo/install/rc_serial_driver/include/**",
+        "/home/weison/Desktop/auto_robo/install/yolov8_msgs/include/**",
+        "/home/weison/Desktop/auto_robo/install/rc_controller/include/**",
+        "/home/weison/Desktop/auto_robo/install/rc_interface_msgs/include/**",
+        "/home/weison/Desktop/auto_robo/install/fast_lio/include/**",
+        "/home/weison/Desktop/auto_robo/install/livox_ros_driver2/include/**",
+        "/opt/ros/humble/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

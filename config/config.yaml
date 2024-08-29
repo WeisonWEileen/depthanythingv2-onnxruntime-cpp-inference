@@ -1,0 +1,4 @@
+%YAML:1.0
+
+onnx_model_path: "data/models/vitb.onnx"
+picture_path: "/home/weison/Desktop/ONNX-Runtime-Inference/data/images/2011_10_03_drive_0047_sync_image_0000000791_image_03.png"

@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 project(ONNX_Runtime_Examples VERSION 0.0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_BUILD_TYPE RelWithDebInfo)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(OpenCV REQUIRED)
 # find_path(ONNX_RUNTIME_SESSION_INCLUDE_DIRS onnxruntime_cxx_api.h HINTS /home/weison/Downloads/onnxruntime-linux-x64-gpu-1.18.0/include/)

@@ -3,13 +3,14 @@
 // https://github.com/microsoft/onnxruntime/blob/v1.8.2/include/onnxruntime/core/session/onnxruntime_cxx_api.h
 #include <onnxruntime_cxx_api.h>
 
+#include <opencv2/core/core.hpp>
 #include <opencv2/dnn/dnn.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 
 #include <chrono>
 #include <cmath>
-#include <exception>
+// #include <exception>
 #include <fstream>
 #include <iostream>
 #include <limits>
@@ -20,7 +21,7 @@
 template <typename T>
 T vectorProduct(const std::vector<T>& v)
 {
-    return accumulate(v.begin(), v.end(), 1, std::multiplies<T>());
+    return std::accumulate(v.begin(), v.end(), 1, std::multiplies<T>());
 }
 
 /**
@@ -166,10 +167,13 @@ int main(int argc, char* argv[])
     }
 
     std::string instanceName{"image-classification-inference"};
-    std::string modelFilepath{"../../data/models/squeezenet1.1-7.onnx"};
+    // std::string modelFilepath{"../../data/models/squeezenet1.1-7.onnx"};
     // std::string modelFilepath{"../../data/models/resnet18-v1-7.onnx"};
+    std::string modelFilepath{"data/models/vitb.onnx"};
+    // std::string imageFilepath{
+        // "../../data/images/european-bee-eater-2115564_1920.jpg"};
     std::string imageFilepath{
-        "../../data/images/european-bee-eater-2115564_1920.jpg"};
+        "data/images/2011_10_03_drive_0047_sync_image_0000000791_image_03.png"};
     std::string labelFilepath{"../../data/labels/synset.txt"};
 
     std::vector<std::string> labels{readLabels(labelFilepath)};
@@ -344,8 +348,7 @@ int main(int argc, char* argv[])
     std::chrono::steady_clock::time_point end =
         std::chrono::steady_clock::now();
     std::cout << "Minimum Inference Latency: "
-              << std::chrono::duration_cast<std::chrono::milliseconds>(end -
-                                                                       begin)
+              << std::chrono::duration_cast<std::chrono::milliseconds>(end -begin)
                          .count() /
                      static_cast<float>(numTests)
               << " ms" << std::endl;
