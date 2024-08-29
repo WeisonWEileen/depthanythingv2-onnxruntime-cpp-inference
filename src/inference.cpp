@@ -118,7 +118,7 @@ std::ostream& operator<<(std::ostream& os,
     return os;
 }
 
-std::vector<std::string> readLabels(std::string& labelFilepath)
+std::vector<std::string> ReadLabels(std::string& labelFilepath)
 {
     std::vector<std::string> labels;
     std::string line;
@@ -348,8 +348,7 @@ int main(int argc, char* argv[])
     std::chrono::steady_clock::time_point end =
         std::chrono::steady_clock::now();
     std::cout << "Minimum Inference Latency: "
-              << std::chrono::duration_cast<std::chrono::milliseconds>(end -begin)
-                         .count() /
+              << std::chrono::duration_cast<std::chrono::milliseconds>(end-begin).count() /
                      static_cast<float>(numTests)
               << " ms" << std::endl;
 }

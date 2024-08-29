@@ -1,6 +1,6 @@
 #include <fstream>
 #include <string>
-#include <onnxruntime/core/session/onnxruntime_cxx_api.h>
+#include <onnxruntime_cxx_api.h>
 
 int main()
 {
@@ -21,7 +21,7 @@ int main()
     Ort::Value input_tensor =
         Ort::Value::CreateTensor<float>(memory_info, input.data(), input.size(),
                                         input_shape.data(), input_shape.size());
-    const char* input_names[] = {...};
+    const char* input_names[] = {...}; 
 
     // Allocate model outputs: fill in shape and size
     std::array<float, ...> output{};
@@ -32,6 +32,6 @@ int main()
     const char* output_names[] = {...};
 
     // Run the model
-    session_.Run(Ort::RunOptions{nullptr}, input_names, &input_tensor, 1,
+    session.Run(Ort::RunOptions{nullptr}, input_names, &input_tensor, 1,
                  output_names, &output_tensor, 1);
 }
