@@ -1,79 +1,23 @@
-# ONNX Runtime Inference
-
-## Introduction
-
-ONNX Runtime C++ inference example for image classification using CPU and CUDA.
+# ONNX Runtime Inference cpp for Depth Anything v2
 
 
-## 参考链接
+</div style="text-align: center;">
+        <img src=./image.png  width="600" height="300">
+</div>
 
-https://zhuanlan.zhihu.com/p/524230808
+#### 本项目部署 platform
+- ubuntu 22.04
+- onnxruntime 18.0
+- CUDA 12.2
+- cudnn 8.9.x.x
 
-## Dependencies
+### 文件项目说明
+只需使用 main.cpp 文件，其它只是开发过程中待升级的文件
 
-* CMake 3.27.1
-* ONNX Runtime 1.18.0
-* OpenCV 4.5.2
 
-## Usages
-
-### Build Docker Image
-
-```bash
-$ docker build -f docker/onnxruntime-cuda.Dockerfile --no-cache --tag=onnxruntime-cuda:1.12.0 .
-```
-
-### Run Docker Container
-
-```bash
-$ docker run -it --rm --gpus device=0 -v $(pwd):/mnt onnxruntime-cuda:1.12.0
-```
-
-### Build Example
-
-```bash
-$ cmake -B build
-$ cmake --build build --config Release --parallel
-```
-
-### Run Example
-
-```bash
-$ cd build/src/
-$ ./inference  --use_cpu
-Inference Execution Provider: CPU
-Number of Input Nodes: 1
-Number of Output Nodes: 1
-Input Name: data
-Input Type: float
-Input Dimensions: [1, 3, 224, 224]
-Output Name: squeezenet0_flatten0_reshape0
-Output Type: float
-Output Dimensions: [1, 1000]
-Predicted Label ID: 92
-Predicted Label: n01828970 bee eater
-Uncalibrated Confidence: 0.996137
-Minimum Inference Latency: 7.45 ms
-```
-
-```bash
-$ cd build/src/
-$ ./inference  --use_cuda
-Inference Execution Provider: CUDA
-Number of Input Nodes: 1
-Number of Output Nodes: 1
-Input Name: data
-Input Type: float
-Input Dimensions: [1, 3, 224, 224]
-Output Name: squeezenet0_flatten0_reshape0
-Output Type: float
-Output Dimensions: [1, 1000]
-Predicted Label ID: 92
-Predicted Label: n01828970 bee eater
-Uncalibrated Confidence: 0.996137
-Minimum Inference Latency: 0.98 ms
-```
+## Tutorial
+please refer to [TUTORIAL.md](./TUTORIAL.md)
 
 ## References
-
+* https://zhuanlan.zhihu.com/p/524230808
 * [ONNX Runtime C++ Inference](https://leimao.github.io/blog/ONNX-Runtime-CPP-Inference/)

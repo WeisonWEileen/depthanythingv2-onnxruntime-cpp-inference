@@ -41,11 +41,6 @@ end
 ```
 
 
+### 使用 CUDA 加速
+OnnxRuntime 加速提供的CUDA加速接口非常方便，只需要在 ```sessionOptions``` 中加上CUDA对应选项即可。
 ## Appendix
-##### 本项目部署 platform
-- Linux ubuntu 22.04
-- onnxruntime 18.0
-- CUDA 12.2
-- cudnn 8.9.x.x
-
-

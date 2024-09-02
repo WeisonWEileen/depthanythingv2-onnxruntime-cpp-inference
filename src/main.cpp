@@ -6,9 +6,81 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
 #include <vector>
+#include <chrono>
 
-#define IMG_HEIGHT 1216
-#define IMG_WIDTH 352
+/**
+ * @brief Print ONNX tensor data type
+ * https://github.com/microsoft/onnxruntime/blob/rel-1.6.0/include/onnxruntime/core/session/onnxruntime_c_api.h#L93
+ * @param os
+ * @param type
+ * @return std::ostream&
+ */
+std::ostream& operator<<(std::ostream& os,
+                         const ONNXTensorElementDataType& type)
+{
+    switch (type)
+    {
+        case ONNXTensorElementDataType::ONNX_TENSOR_ELEMENT_DATA_TYPE_UNDEFINED:
+            os << "undefined";
+            break;
+        case ONNXTensorElementDataType::ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT:
+            os << "float";
+            break;
+        case ONNXTensorElementDataType::ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT8:
+            os << "uint8_t";
+            break;
+        case ONNXTensorElementDataType::ONNX_TENSOR_ELEMENT_DATA_TYPE_INT8:
+            os << "int8_t";
+            break;
+        case ONNXTensorElementDataType::ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT16:
+            os << "uint16_t";
+            break;
+        case ONNXTensorElementDataType::ONNX_TENSOR_ELEMENT_DATA_TYPE_INT16:
+            os << "int16_t";
+            break;
+        case ONNXTensorElementDataType::ONNX_TENSOR_ELEMENT_DATA_TYPE_INT32:
+            os << "int32_t";
+            break;
+        case ONNXTensorElementDataType::ONNX_TENSOR_ELEMENT_DATA_TYPE_INT64:
+            os << "int64_t";
+            break;
+        case ONNXTensorElementDataType::ONNX_TENSOR_ELEMENT_DATA_TYPE_STRING:
+            os << "std::string";
+            break;
+        case ONNXTensorElementDataType::ONNX_TENSOR_ELEMENT_DATA_TYPE_BOOL:
+            os << "bool";
+            break;
+        case ONNXTensorElementDataType::ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT16:
+            os << "float16";
+            break;
+        case ONNXTensorElementDataType::ONNX_TENSOR_ELEMENT_DATA_TYPE_DOUBLE:
+            os << "double";
+            break;
+        case ONNXTensorElementDataType::ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT32:
+            os << "uint32_t";
+            break;
+        case ONNXTensorElementDataType::ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT64:
+            os << "uint64_t";
+            break;
+        case ONNXTensorElementDataType::ONNX_TENSOR_ELEMENT_DATA_TYPE_COMPLEX64:
+            os << "float real + float imaginary";
+            break;
+        case ONNXTensorElementDataType::
+            ONNX_TENSOR_ELEMENT_DATA_TYPE_COMPLEX128:
+            os << "double real + float imaginary";
+            break;
+        case ONNXTensorElementDataType::ONNX_TENSOR_ELEMENT_DATA_TYPE_BFLOAT16:
+            os << "bfloat16";
+            break;
+        default:
+            break;
+    }
+
+    return os;
+}
+
+const int IMG_HEIGHT = 352;
+const int IMG_WIDTH = 1216;
 
 cv::Mat preprocess_img(const cv::Mat& mat)
 {
@@ -23,36 +95,31 @@ cv::Mat preprocess_img(const cv::Mat& mat)
 
 int main(int argc, char* argv[])
 {
-    //*************************************************************************
-    // initialize  enviroment...one enviroment per process
-    // enviroment maintains thread pools and other state info
-    Ort::Env env(ORT_LOGGING_LEVEL_WARNING, "test");
+
+    Ort::Env env(ORT_LOGGING_LEVEL_WARNING, "vitb");
 
     // initialize session options if needed
     Ort::SessionOptions session_options;
     session_options.SetIntraOpNumThreads(1);
 
-    // If onnxruntime.dll is built with CUDA enabled, we can uncomment out this
-    // line to use CUDA for this session (we also need to include
-    // cuda_provider_factory.h above which defines it) #include
-    // "cuda_provider_factory.h"
-    // OrtSessionOptionsAppendExecutionProvider_CUDA(session_options, 1);
+    bool use_cuda = true;
+    if (use_cuda)
+    {
+        const OrtCUDAProviderOptions& provider_options{};
+        session_options.AppendExecutionProvider_CUDA(provider_options);
+    }
 
     // Sets graph optimization level
     // Available levels are
     // ORT_DISABLE_ALL -> To disable all optimizations
-    // ORT_ENABLE_BASIC -> To enable basic optimizations (Such as redundant node
-    // removals) ORT_ENABLE_EXTENDED -> To enable extended optimizations
-    // (Includes level 1 + more complex optimizations like node fusions)
-    // ORT_ENABLE_ALL -> To Enable All possible opitmizations
+    // ORT_ENABLE_BASIC -> To enable basic optimizations (Such as redundant
+    // node removals) ORT_ENABLE_EXTENDED -> To enable extended
+    // optimizations (Includes level 1 + more complex optimizations like
+    // node fusions) ORT_ENABLE_ALL -> To Enable All possible opitmizations
     session_options.SetGraphOptimizationLevel(
-        GraphOptimizationLevel::ORT_ENABLE_EXTENDED);
+        GraphOptimizationLevel::ORT_ENABLE_ALL);
 
-    //*************************************************************************
-    // create session and load model into memory
-    // using squeezenet version 1.3
-    // URL = https://github.com/onnx/models/tree/master/squeezenet
-
+    //input your model path 
     const char* model_path =
         "/home/weison/Desktop/ONNX-Runtime-Inference/data/models/vitb.onnx";
 
@@ -72,7 +139,9 @@ int main(int argc, char* argv[])
 
     printf("Number of inputs = %zu\n", num_input_nodes);
 
-    // iterate over all input nodes
+    // you can check your input and output node name in netron, or using
+    // GetInputNameAllocated method
+    
     const char* input_name = "l_x_";
     for (int i = 0; i < num_input_nodes; i++)
     {
@@ -85,7 +154,8 @@ int main(int argc, char* argv[])
         auto tensor_info = type_info.GetTensorTypeAndShapeInfo();
 
         ONNXTensorElementDataType type = tensor_info.GetElementType();
-        printf("Input %d : type=%d\n", i, type);
+        printf("Input %d : type=", i);
+        std::cout << type << std::endl;
 
         // print input shapes/dims
         input_node_dims = tensor_info.GetShape();
@@ -95,18 +165,8 @@ int main(int argc, char* argv[])
         }
     }
 
-    //*************************************************************************
-    // Similar operations to get output node information.
-    // Use OrtSessionGetOutputCount(), OrtSessionGetOutputName()
-    // OrtSessionGetOutputTypeInfo() as shown above.
 
-    //*************************************************************************
-    // Score the model using sample data, and inspect values
-
-    size_t input_tensor_size =
-        518 * 518 *
-        3; // simplify ... using known dim values to calculate size
-           // use OrtGetTensorShapeElementCount() to get official size!
+    int input_tensor_size = 518 * 518 * 3; 
 
     std::vector<float> input_tensor_values(input_tensor_size);
 
@@ -120,11 +180,6 @@ int main(int argc, char* argv[])
 
     std::vector<const char*> output_node_names = {"select_36"};
 
-    // initialize input data with values in [0.0, 1.0]
-    // for (unsigned int i = 0; i < input_tensor_size; i++)
-    //     input_tensor_values[i] = (float)i / (input_tensor_size + 1);
-
-    // create input tensor object from data values
     auto memory_info =
         Ort::MemoryInfo::CreateCpu(OrtArenaAllocator, OrtMemTypeDefault);
     Ort::Value input_tensor = Ort::Value::CreateTensor<float>(
@@ -132,15 +187,23 @@ int main(int argc, char* argv[])
         input_node_dims.data(), 4);
     assert(input_tensor.IsTensor());
 
+    auto start = std::chrono::high_resolution_clock::now();
+
     // score model & input tensor, get back output tensor
     auto output_tensors =
         session.Run(Ort::RunOptions{nullptr}, input_node_names.data(),
                     &input_tensor, 1, output_node_names.data(), 1);
-    assert(output_tensors.size() == 1 && output_tensors.front().IsTensor());
+    // assert(output_tensors.size() == 1 && output_tensors.front().IsTensor());
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::cout << "Inference time: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
+                     .count()
+              << "ms" << std::endl;
 
     // Get pointer to output tensor float values
     float* floatarr = output_tensors.front().GetTensorMutableData<float>();
-    // assert(abs(floatarr[0] - 0.000045) < 1e-6);
+
     std::vector<float> results(1 * 518 * 518);
     for (unsigned i = 0; i < 1 * 518 * 518; i++)
     {
@@ -148,16 +211,18 @@ int main(int argc, char* argv[])
     }
 
 
-    cv::Mat output_img(518,518,CV_32F,results.data());
+    cv::Mat output_img(518, 518, CV_32F, floatarr);
 
-    cv::resize(output_img, output_img, cv::Size(1216, 352), 0.0, 0.0,
+    cv::resize(output_img, output_img,
+               cv::Size(IMG_WIDTH, IMG_HEIGHT), 0.0, 0.0,
                cv::INTER_CUBIC);
-    double minVal, maxVal;
-    cv::minMaxLoc(output_img, &minVal, &maxVal);
+    double min_val=0.0, max_val = 0.0;
+    cv::minMaxLoc(output_img, &min_val, &max_val);
     output_img.convertTo(output_img, CV_32F);
-    if (minVal != maxVal)
+    
+    if (min_val != max_val)
     {
-        output_img = (output_img - minVal) / (maxVal - minVal);
+        output_img = (output_img - min_val) / (max_val - min_val);
     }
     output_img *= 255.0;
     output_img.convertTo(output_img, CV_8UC1);
@@ -174,6 +239,7 @@ int main(int argc, char* argv[])
             break;
         }
     }
+
     printf("Done!\n");
     return 0;
 }
