@@ -1,18 +1,20 @@
 # ONNX Runtime Inference cpp for Depth Anything v2
 
 
-</div style="text-align: center;">
-        <img src=./image.png  width="600" height="300">
+<div style="text-align: center;">
+        <img src=./image.png  width="600" height="320">
 </div>
 
-#### 本项目部署 platform
+####  platform
 - ubuntu 22.04
 - onnxruntime 18.0
 - CUDA 12.2
 - cudnn 8.9.x.x
 
-### 文件项目说明
-只需使用 main.cpp 文件，其它只是开发过程中待升级的文件
+### to reproduce 
+- set your onnxruntime library path in CMakeLists.txt
+- run ```build.sh```
+- run ```./build/src/main``` in your project's root directory
 
 
 ## Tutorial
