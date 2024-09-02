@@ -9,12 +9,14 @@ Diagnostics:
             cppcoreguidelines-*,
             modernize-deprecated-headers,
             modernize-loop-convert,
-            modernize-avoid-c-arrays,
             modernize-use-default-member-init,
             concurrency-*,
             performance-*
             ]
     Remove: [
+            cert-err60-cpp,
+            bugprone-easily-swappable-parameters,
+            modernize-avoid-c-arrays,
             google-build-using-namespace,
             bugprone-undefined-memory-manipulation,
             cppcoreguidelines-pro-type-union-access,
@@ -60,5 +62,8 @@ Diagnostics:
       readability-identifier-naming.ClassCase: CamelCase
       readability-identifier-naming.StructCase  : CamelCase
       readability-identifier-naming.FunctionCase: lower_case
-      readability-identifier-naming.ClassMethodCase: CamelCase
-      readability-identifier-naming.MethodCase: CamelCase
+      readability-identifier-naming.ClassMethodCase: camelBack
+      readability-identifier-naming.MethodCase: camelBack
+
+CompileFlags:
+  Add: [-std=c++20]

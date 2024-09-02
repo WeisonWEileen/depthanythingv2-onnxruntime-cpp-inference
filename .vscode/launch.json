@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": false,
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      // "program": "${workspaceFolder}/install/armor_detector/lib/armor_detector/rc_armor_detector_node",
+    //   "program": "${workspaceFolder}/build/src/pred",
+      "program": "${workspaceFolder}/build/src/main",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}

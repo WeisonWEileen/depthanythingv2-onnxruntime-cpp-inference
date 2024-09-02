@@ -176,7 +176,7 @@ int main(int argc, char* argv[])
         "data/images/2011_10_03_drive_0047_sync_image_0000000791_image_03.png"};
     std::string labelFilepath{"../../data/labels/synset.txt"};
 
-    std::vector<std::string> labels{readLabels(labelFilepath)};
+    std::vector<std::string> labels{ReadLabels(labelFilepath)};
 
     Ort::Env env(OrtLoggingLevel::ORT_LOGGING_LEVEL_WARNING,
                  instanceName.c_str());

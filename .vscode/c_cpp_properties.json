@@ -18,7 +18,8 @@
         "/home/weison/Desktop/auto_robo/install/fast_lio/include/**",
         "/home/weison/Desktop/auto_robo/install/livox_ros_driver2/include/**",
         "/opt/ros/humble/include/**",
-        "/usr/include/**"
+        "/usr/include/**",
+        "{workspaceFolder}/include"
       ],
       "name": "ROS",
       "intelliSenseMode": "gcc-x64",

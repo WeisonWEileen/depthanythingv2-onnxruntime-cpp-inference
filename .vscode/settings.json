@@ -85,7 +85,15 @@
         "thread": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "unordered_set": "cpp"
+        "unordered_set": "cpp",
+        "any": "cpp",
+        "variant": "cpp",
+        "*.ipp": "cpp",
+        "*.txx": "cpp",
+        "typeindex": "cpp",
+        "future": "cpp",
+        "bitset": "cpp",
+        "list": "cpp"
     },
     "clangd.arguments": [
         "--all-scopes-completion", // 全局补全(补全建议会给出在当前作用域不可见的索引,插入后自动补充作用域标识符),例如在main()中直接写cout,即使没有`#include <iostream>`,也会给出`std::cout`的建议,配合"--header-insertion=iwyu",还可自动插入缺失的头文件
@@ -112,4 +120,8 @@
         "-j=12", // 同时开启的任务数量
         // "clangd.onConfigChanged=restart"
     ]
+    // 配置头文件路径
+    // "clangd.fallbackFlags": [
+    //     "-I${workspaceFolder}/include/**"
+    // ]
 }

@@ -4,10 +4,15 @@
 
 ONNX Runtime C++ inference example for image classification using CPU and CUDA.
 
+
+## 参考链接
+
+https://zhuanlan.zhihu.com/p/524230808
+
 ## Dependencies
 
-* CMake 3.20.1
-* ONNX Runtime 1.12.0
+* CMake 3.27.1
+* ONNX Runtime 1.18.0
 * OpenCV 4.5.2
 
 ## Usages
