@@ -1,7 +1,7 @@
 # Depth-Anything v2 OnnxRuntime c++ 部署教程
 
 ### Intro
-[Depth-Anythin v2](https://github.com/DepthAnything/Depth-Anything-V2) 的源码开源之后，3 months 已经收货了 3k 的star数，可谓是单目深度估计的最火热的模型之一，此深度估计方法可作为一些slam 任务和 embodied AI task 的 depth input。
+[Depth-Anythin v2](https://github.com/DepthAnything/Depth-Anything-V2) 的源码开源之后，3 months 已经收获了 3k 的star数，可谓是单目深度估计的最火热的模型之一，此深度估计方法可作为一些slam 任务和 embodied AI task 的 depth input。
 因此使用 OnnxRuntime, TensorRT 等框架对模型进行加速提高帧率是有意义的。本文将介绍使用 OnnxRuntime 对作者提供的 Vitb 模型进行部署。笔者在部署过程中踩了一些坑，在这里记录下来，希望可以帮助其他人。
 
 ### 导出 Onnx 模型

@@ -18,7 +18,7 @@
 
 
 ## Tutorial
-please refer to [TUTORIAL.md](./TUTORIAL.md)
+please refer to [TUTORIAL.md](./TUTORIAL.md) or [知乎](https://zhuanlan.zhihu.com/p/717895854)
 
 ## References
 * https://zhuanlan.zhihu.com/p/524230808
